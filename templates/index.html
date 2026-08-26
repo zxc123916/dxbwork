@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh‑CN">
+<head>
+    <meta charset="UTF‑8">
+    <meta name="viewport" content="width=device‑width, initial‑1.0">
+    <title>工业机器人健康状态监测系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border‑box;
+            font‑family: "Microsoft YaHei", system‑ui, sans‑serif;
+        }
+        body {
+            min‑height: 100vh;
+            background: linear-gradient(135deg, #1f3b64 0%, #365b94 50%, #4b78b8 100%);
+            padding: 48px 16px;
+        }
+        .container {
+            max‑width: 800px;
+            margin: 0 auto;
+        }
+        .main‑card {
+            background: #ffffff;
+            border‑radius: 20px;
+            box‑shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+            padding: 42px;
+        }
+        h1 {
+            text‑align: center;
+            color: #163b70;
+            font‑size: 30px;
+            margin‑bottom: 12px;
+        }
+        .subtitle {
+            text‑align: center;
+            color: #64748b;
+            font‑size: 16px;
+            margin‑bottom: 32px;
+        }
+        .divider {
+            height: 2px;
+            background: linear‑gradient(to right, transparent, #2b65b4, transparent);
+            margin‑bottom: 28px;
+        }
+        .sample‑title‑box{
+            background-color:#e8f0fc;
+            border‑radius:8px;
+            padding:8px 14px;
+            margin‑bottom:12px;
+            border-left:4px solid #2b65b4;
+        }
+        .sample‑title‑box span{
+            font‑weight:bold;
+            color:#163b70;
+            font‑size:16px;
+        }
+        .group‑row{
+            display:grid;
+            grid‑template‑columns: repeat(6, 1fr);
+            gap:10px;
+            margin‑bottom:24px;
+        }
+        .group‑row input{
+            padding:10px 8px;
+            border:1px solid #cbd5e1;
+            border‑radius:8px;
+            font‑family:Consolas,monospace;
+            font‑size:13px;
+        }
+        .group‑row input::placeholder {
+            color:#999999;
+        }
+        .group‑row input:focus{
+            outline:none;
+            border‑color:#2b65b4;
+            box‑shadow:0 0 0 3px rgba(43,101,180,0.15);
+        }
+        .btn‑random{
+            width:100%;
+            background:#475569;
+            color:#fff;
+            border:none;
+            padding:12px;
+            border‑radius:12px;
+            font‑size:16px;
+            cursor:pointer;
+            margin‑bottom:14px;
+        }
+        .btn‑random:hover{
+            background:#334155;
+        }
+        .btn‑submit {
+            width: 100%;
+            background: linear‑gradient(90deg, #2058a8, #2b74d8);
+            color: #fff;
+            border: none;
+            padding:14px;
+            border‑radius:12px;
+            font‑size:17px;
+            font‑weight:500;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .btn‑submit:hover {
+            background: linear‑gradient(90deg, #19488c, #2262bc);
+            box‑shadow: 0 6px 16px rgba(34, 98, 188, 0.35);
+        }
+        .result‑wrap {
+            margin‑top: 30px;
+            border‑radius:12px;
+            padding:20px;
+            background‑color: #f1f5f9;
+        }
+        .result‑ok {
+            border‑left:6px solid #10b981;
+        }
+        .result‑warn {
+            border‑left:6px solid #ef4444;
+        }
+        .result‑title {
+            font‑size:18px;
+            font‑weight:bold;
+            color:#1e293b;
+            margin‑bottom:12px;
+        }
+        .result‑item {
+            font‑size:16px;
+            margin:8px 0;
+            color:#334155;
+        }
+        .error‑box {
+            margin‑top:16px;
+            padding:14px 18px;
+            background‑color: #fee2e2;
+            border‑radius:10px;
+            color:#dc2626;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="main‑card">
+        <h1>工业机器人健康状态监测系统</h1>
+        <div class="subtitle">输入2条样本，每条填写6个传感器浮点数据</div>
+        <div class="divider"></div>
+
+        <form method="post" action="/predict">
+            <button class="btn‑random" type="button" onclick="fillRandomData()">🎲 一键快速随机生成12个数据</button>
+
+            <!-- 样本1 -->
+            <div class="sample‑title‑box">
+                <span>样本1</span>
+            </div>
+            <div class="group‑row">
+                <input type="text" name="s1_0" id="s1_0" placeholder="0.12">
+                <input type="text" name="s1_1" id="s1_1" placeholder="0.31">
+                <input type="text" name="s1_2" id="s1_2" placeholder="0.22">
+                <input type="text" name="s1_3" id="s1_3" placeholder="0.11">
+                <input type="text" name="s1_4" id="s1_4" placeholder="0.25">
+                <input type="text" name="s1_5" id="s1_5" placeholder="0.33">
+            </div>
+
+            <!-- 样本2 -->
+            <div class="sample‑title‑box">
+                <span>样本2</span>
+            </div>
+            <div class="group‑row">
+                <input type="text" name="s2_0" id="s2_0" placeholder="0.13">
+                <input type="text" name="s2_1" id="s2_1" placeholder="0.30">
+                <input type="text" name="s2_2" id="s2_2" placeholder="0.21">
+                <input type="text" name="s2_3" id="s2_3" placeholder="0.12">
+                <input type="text" name="s2_4" id="s2_4" placeholder="0.24">
+                <input type="text" name="s2_5" id="s2_5" placeholder="0.32">
+            </div>
+
+            <button class="btn‑submit" type="submit">▶ 开始健康状态检测</button>
+        </form>
+
+        {% if result %}
+        <div class="result‑wrap {% if result.pred_label == 1 %}result‑warn{% else %}result‑ok{% endif %}">
+            <div class="result‑title">📋 模型推理结果</div>
+            <div class="result‑item">故障标签：<strong>{{result.pred_label}}</strong></div>
+            <div class="result‑item">故障概率：<strong>{{result.pred_prob}}</strong></div>
+            <div class="result‑item">
+                {% if result.pred_label ==1 %}
+                ⚠️ 检测结果：机器人存在故障风险
+                {% else %}
+                ✅ 检测结果：机器人运行状态健康
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if error_msg %}
+        <div class="error‑box">❌ {{error_msg}}</div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+//一键随机生成12个0~0.4之间的浮点数，保留2位小数
+function fillRandomData(){
+    const ids = [
+        "s1_0","s1_1","s1_2","s1_3","s1_4","s1_5",
+        "s2_0","s2_1","s2_2","s2_3","s2_4","s2_5"
+    ]
+    ids.forEach(id=>{
+        const val = (Math.random()*0.4).toFixed(2);
+        document.getElementById(id).value = val;
+    })
+}
+</script>
+</body>
+</html>
