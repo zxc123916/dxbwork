@@ -1,66 +1,10 @@
 {
-"problem_overview": "需要拆分两个页面：健康检测页、数据输入页，分属不同路由，保持 UI 风格统一；当前报错 TemplateNotFound: 'input.html'，同时 result 页面空白，定位代码漏洞并给出最小改动方案，涉及 api 接口层与 templates 模板层文件修改",
-"bug_analysis": [
-{
-"bug_id": 1,
-"bug_desc": "TemplateNotFound: 'input.html' not found in search path: 'templates'",
-"root_cause": "路由中 render_template 引用模板文件名为 input.html，但 templates 目录下实际文件名不一致（大小写 / 拼写错误，未同步修改模板物理文件名），模板文件未放置在 templates 文件夹内",
-"minimal_fix": "核对 templates 目录真实 html 文件名，保证 render_template ('xxx.html') 内字符串和磁盘上文件名完全一致，注意大小写；确认 input.html 存放于 templates 根目录"
-},
-{
-"bug_id": 2,
-"bug_desc": "result 界面页面空白",
-"possible_root_cause": [
-"result 模板未正确传入后端变量，模板中使用未定义变量触发模板渲染静默失败",
-"接口 POST 返回异常，未正确 render_template 渲染 result，直接返回空响应",
-"form 表单 action 地址、method 方法错误，没有正确提交数据流向 result 路由",
-"result.html 模板本身 html 结构残缺，缺少基础 html 骨架标签"
-],
-"minimal_fix": [
-"检查 result 路由，确认所有传给模板的变量存在兜底默认值",
-"增加异常捕获，发生错误时渲染 result 并携带错误提示，不直接返回空",
-"核对表单 action 指向 result 接口，method="post"",
-" 确认 result.html 具备完整<html><body>基础标签 "
-]
-}
-],
-"page_split_modify_scheme": {
-"api_file_modification": {
-"requirement": "拆分两个页面路由，风格保持统一",
-"routes": [
-{
-"route_path": "/health_detect",
-"method": "GET",
-"function": "健康检测首页，render_template ('health_detect.html')"
-},
-{
-"route_path": "/input_data",
-"method": "GET",
-"function": "数据输入页面，render_template ('input.html')"
-},
-{
-"route_path": "/result",
-"method": "POST",
-"function": "接收 input 页面提交表单数据，业务计算后渲染 result.html"
-}
-],
-"tip": "两个页面可引入同一个 css 样式文件，实现风格统一；可提取公共 html 片段 base.html 使用模板继承，减少重复代码"
-},
-"templates_file_adjust": {
-"file_list": [
-"templates/health_detect.html 健康检测页面",
-"templates/input.html 数据输入页面",
-"templates/result.html 结果展示页面",
-"templates/base.html（可选公共基础模板，用于保持风格一致）"
-],
-"critical_check": "磁盘实际文件名和 render_template 调用名称严格完全匹配，区分大小写"
-}
-},
-"quick_check_list": [
-"1. 确认 templates 文件夹位置，与 api 入口文件同级",
-"2. 打印确认 templates 目录下全部 html 文件名，核对代码字符串",
-"3. 测试访问 /input_data，观察是否还报模板找不到",
-"4. 给 result 路由增加 try‑except，捕获异常，模板传入 error_msg 变量便于调试空白页",
-"5.input 页面表单 post 提交到 /result 路由"
-]
+  "requirements": [
+    {
+      "desc": "将健康检测页面与数据输入页面拆分为两个独立页面，同时保持页面风格统一，需要同步修改 api 文件以及 templates 模板文件"
+    },
+    {
+      "problem": "报错 TemplateNotFound: 'input.html' not found in search path: 'templates'，原因为文件命名未同步修改；另外生成的 result 界面显示空白，需要定位代码漏洞，提供改动量尽可能小的修改方案"
+    }
+  ]
 }
