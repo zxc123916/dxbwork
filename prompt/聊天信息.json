@@ -1,0 +1,59 @@
+{
+    "project_name": "工业机器人健康状态监测系统",
+    "project_type": "课程设计",
+    "tech_stack": {
+        "backend": "Python + FastAPI",
+        "model": "LSTM深度学习模型",
+        "frontend": "Web网页",
+        "dataset": "dataset.xlsx",
+        "debug_env": "Windows PowerShell",
+        "version_control": "GitHub桌面版"
+    },
+    "root_path": "D:\\githubdatadxb\\dxbwork",
+    "file_structure": {
+        "src/api_server.py": "FastAPI后端 + LSTM模型推理",
+        "templates/index.html": "Web前端页面",
+        "requirements.txt": "项目依赖清单",
+        "dataset.xlsx": "原始数据集"
+    },
+    "early_development_requirements": [
+        "使用本地dataset.xlsx数据集做工业机器人健康状态监测训练",
+        "跳过虚拟环境，直接运行EDA数据探索代码，处理seaborn、excel文件路径找不到等报错",
+        "完成数据预处理、LSTM模型训练；数据集样本不均衡（正常7166，故障243），坚持使用深度学习方案，调试梯度报错、过拟合问题",
+        "搭建B/S网页系统",
+        "requirements.txt依赖：[\"fastapi\",\"uvicorn\",\"pandas\",\"numpy\",\"torch\",\"scikit‑learn\",\"python‑multipart\",\"jinja2\"]",
+        "PowerShell进入项目根目录D:\\githubdatadxb\\dxbwork",
+        "创建api_server.py、model_infer.py、templates/index.html，补齐缺失文件夹，启动uvicorn后端服务",
+        "解决接口422报错：前后端表单参数不匹配问题"
+    ],
+    "frontend_ui_business_requirements": {
+        "old_version": "10条样本，每条24维逗号分隔字符串输入",
+        "new_version": [
+            "只保留2条样本",
+            "每条样本拆分为6个独立输入框，不再逗号拼接大文本",
+            "输入框内示例提示文字为灰色占位符",
+            "\"样本1、样本2\"标题放在专门独立显示框",
+            "新增交互按钮：一键快速随机生成12个数据（2样本 ×6=12个浮点），点击自动填充全部输入框，随机数0~0.4保留2位小数，不提交表单",
+            "表单提交后端/predict接口；返回推理结果，区分健康/故障样式；输入错误给出红色错误提示"
+        ]
+    },
+    "document_notes_requirement": {
+        "file_type": "md",
+        "content": [
+            "选题",
+            "github仓库注册推送",
+            "AI工具学习",
+            "选用模型",
+            "git原理功能",
+            "选题调研"
+        ],
+        "note": "根据实际开发步骤删减内容，字数≤1000字"
+    },
+    "run_flow": [
+        "PowerShell 进入D:\\githubdatadxb\\dxbwork",
+        "执行python src/api_server.py启动服务",
+        "浏览器访问 http://127.0.0.1:8000",
+        "可手动填写 12 个浮点数，或点击【一键随机生成 12 个数据】",
+        "点击开始健康状态检测，提交表单，页面展示推理结果"
+    ]
+}
