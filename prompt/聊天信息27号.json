@@ -5,6 +5,23 @@
     },
     {
       "problem": "报错 TemplateNotFound: 'input.html' not found in search path: 'templates'，原因为文件命名未同步修改；另外生成的 result 界面显示空白，需要定位代码漏洞，提供改动量尽可能小的修改方案"
+    },
+    {
+      "desc": "界面视觉优化，不改动现有业务逻辑，仅调整页面外观",
+      "input_validation": {
+        "trigger_condition": "输入非数字内容",
+        "ui_effect": "输入框边框变红",
+        "prompt_message": "只能输入 0‑0.4 的浮点数",
+        "optimization_point": "前端实时校验，避免表单提交之后才报错"
+      },
+      "random_generate_button": {
+        "problem": "当前点击一键随机生成按钮无任何用户反馈",
+        "interaction_effect": "点击后按钮短暂展示文字「✅已生成随机数据」，提示用户数据已填充完成"
+      },
+      "new_reset_button": {
+        "button_name": "清空全部",
+        "function": "一次性清空全部12个输入框，支持重新录入样本，无需手动逐个删除输入内容，把样本 1 和样本 2 各自输入的数据改为两行，不在出现超出背景范围的情况"
+      }
     }
   ]
 }

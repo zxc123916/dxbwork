@@ -1,172 +1,241 @@
 <!DOCTYPE html>
-<html lang="zh‑CN">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF‑8">
-    <meta name="viewport" content="width=device‑width, initial‑1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>工业机器人 - 数据输入</title>
     <style>
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border‑box;
-            font‑family: "Microsoft YaHei", system‑ui, sans‑serif;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", system-ui, sans-serif;
         }
         body {
-            min‑height: 100vh;
+            min-height: 100vh;
             background: linear-gradient(135deg, #1f3b64 0%, #365b94 50%, #4b78b8 100%);
             padding: 48px 16px;
         }
         .container {
-            max‑width: 800px;
+            max-width: 800px;
             margin: 0 auto;
         }
-        .main‑card {
+        .main-card {
             background: #ffffff;
-            border‑radius: 20px;
-            box‑shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
             padding: 42px;
         }
         h1 {
-            text‑align: center;
+            text-align: center;
             color: #163b70;
-            font‑size: 30px;
-            margin‑bottom: 12px;
+            font-size: 30px;
+            margin-bottom: 12px;
         }
         .subtitle {
-            text‑align: center;
+            text-align: center;
             color: #64748b;
-            font‑size: 16px;
-            margin‑bottom: 32px;
+            font-size: 16px;
+            margin-bottom: 32px;
         }
         .divider {
             height: 2px;
-            background: linear‑gradient(to right, transparent, #2b65b4, transparent);
-            margin‑bottom: 28px;
+            background: linear-gradient(to right, transparent, #2b65b4, transparent);
+            margin-bottom: 28px;
         }
-        .sample‑title‑box{
+        .sample-title-box{
             background-color:#e8f0fc;
-            border‑radius:8px;
+            border-radius:8px;
             padding:8px 14px;
-            margin‑bottom:12px;
+            margin-bottom:12px;
             border-left:4px solid #2b65b4;
         }
-        .sample‑title‑box span{
-            font‑weight:bold;
+        .sample-title-box span{
+            font-weight:bold;
             color:#163b70;
-            font‑size:16px;
+            font-size:16px;
         }
-        .group‑row{
+        /* 每行3个输入框 */
+        .group-row{
             display:grid;
-            grid‑template‑columns: repeat(6, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap:10px;
-            margin‑bottom:24px;
+            margin-bottom:12px;
         }
-        .group‑row input{
+        .sample-wrap{
+            margin-bottom:24px;
+        }
+        .group-row input{
             padding:10px 8px;
             border:1px solid #cbd5e1;
-            border‑radius:8px;
-            font‑family:Consolas,monospace;
-            font‑size:13px;
+            border-radius:8px;
+            font-family:Consolas,monospace;
+            font-size:13px;
+            transition: border 0.2s;
         }
-        .group‑row input::placeholder {
+        /* 非法输入红色边框 */
+        .group-row input.invalid-input{
+            border: 2px solid #ef4444;
+        }
+        .group-row input::placeholder {
             color:#999999;
         }
-        .group‑row input:focus{
+        .group-row input:focus{
             outline:none;
-            border‑color:#2b65b4;
-            box‑shadow:0 0 0 3px rgba(43,101,180,0.15);
+            border-color:#2b65b4;
+            box-shadow:0 0 0 3px rgba(43,101,180,0.15);
         }
-        .btn‑random{
-            width:100%;
+        .btn-row{
+            display:grid;
+            grid-template-columns: 1fr 1fr;
+            gap:12px;
+            margin-bottom:14px;
+        }
+        .btn-random{
             background:#475569;
             color:#fff;
             border:none;
             padding:12px;
-            border‑radius:12px;
-            font‑size:16px;
+            border-radius:12px;
+            font-size:16px;
             cursor:pointer;
-            margin‑bottom:14px;
         }
-        .btn‑random:hover{
+        .btn-random:hover{
             background:#334155;
         }
-        .btn‑submit {
+        .btn-clear{
+            background:#94a3b8;
+            color:#fff;
+            border:none;
+            padding:12px;
+            border-radius:12px;
+            font-size:16px;
+            cursor:pointer;
+        }
+        .btn-clear:hover{
+            background:#64748b;
+        }
+        .btn-submit {
             width: 100%;
-            background: linear‑gradient(90deg, #2058a8, #2b74d8);
+            background: linear-gradient(90deg, #2058a8, #2b74d8);
             color: #fff;
             border: none;
             padding:14px;
-            border‑radius:12px;
-            font‑size:17px;
-            font‑weight:500;
+            border-radius:12px;
+            font-size:17px;
+            font-weight:500;
             cursor: pointer;
             transition: all 0.25s;
         }
-        .btn‑submit:hover {
-            background: linear‑gradient(90deg, #19488c, #2262bc);
-            box‑shadow: 0 6px 16px rgba(34, 98, 188, 0.35);
+        .btn-submit:hover {
+            background: linear-gradient(90deg, #19488c, #2262bc);
+            box-shadow: 0 6px 16px rgba(34, 98, 188, 0.35);
         }
-        .error‑box {
-            margin‑top:16px;
+        .error-box {
+            margin-top:16px;
             padding:14px 18px;
-            background‑color: #fee2e2;
-            border‑radius:10px;
+            background-color: #fee2e2;
+            border-radius:10px;
             color:#dc2626;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="main‑card">
+    <div class="main-card">
         <h1>工业机器人健康状态监测系统</h1>
-        <div class="subtitle">输入2条样本，每条填写6个传感器浮点数据</div>
+        <div class="subtitle">输入2条样本，每条填写6个传感器浮点数据(0‑0.4)</div>
         <div class="divider"></div>
 
         <form method="post" action="/predict">
-            <button class="btn‑random" type="button" onclick="fillRandomData()">🎲 一键快速随机生成12个数据</button>
-
-            <div class="sample‑title‑box">
-                <span>样本1</span>
-            </div>
-            <div class="group‑row">
-                <input type="text" name="s1_0" id="s1_0" placeholder="0.12">
-                <input type="text" name="s1_1" id="s1_1" placeholder="0.31">
-                <input type="text" name="s1_2" id="s1_2" placeholder="0.22">
-                <input type="text" name="s1_3" id="s1_3" placeholder="0.11">
-                <input type="text" name="s1_4" id="s1_4" placeholder="0.25">
-                <input type="text" name="s1_5" id="s1_5" placeholder="0.33">
+            <div class="btn-row">
+                <button class="btn-random" type="button" id="randBtn">🎲 一键快速随机生成12个数据</button>
+                <button class="btn-clear" type="button" onclick="clearAllData()">🗑️清空全部</button>
             </div>
 
-            <div class="sample‑title‑box">
-                <span>样本2</span>
-            </div>
-            <div class="group‑row">
-                <input type="text" name="s2_0" id="s2_0" placeholder="0.13">
-                <input type="text" name="s2_1" id="s2_1" placeholder="0.30">
-                <input type="text" name="s2_2" id="s2_2" placeholder="0.21">
-                <input type="text" name="s2_3" id="s2_3" placeholder="0.12">
-                <input type="text" name="s2_4" id="s2_4" placeholder="0.24">
-                <input type="text" name="s2_5" id="s2_5" placeholder="0.32">
+            <div class="sample-wrap">
+                <div class="sample-title-box">
+                    <span>样本1</span>
+                </div>
+                <div class="group-row">
+                    <input type="text" name="s1_0" id="s1_0" placeholder="0.12" oninput="checkInput(this)">
+                    <input type="text" name="s1_1" id="s1_1" placeholder="0.31" oninput="checkInput(this)">
+                    <input type="text" name="s1_2" id="s1_2" placeholder="0.22" oninput="checkInput(this)">
+                </div>
+                <div class="group-row">
+                    <input type="text" name="s1_3" id="s1_3" placeholder="0.11" oninput="checkInput(this)">
+                    <input type="text" name="s1_4" id="s1_4" placeholder="0.25" oninput="checkInput(this)">
+                    <input type="text" name="s1_5" id="s1_5" placeholder="0.33" oninput="checkInput(this)">
+                </div>
             </div>
 
-            <button class="btn‑submit" type="submit">▶ 开始健康状态检测</button>
+            <div class="sample-wrap">
+                <div class="sample-title-box">
+                    <span>样本2</span>
+                </div>
+                <div class="group-row">
+                    <input type="text" name="s2_0" id="s2_0" placeholder="0.13" oninput="checkInput(this)">
+                    <input type="text" name="s2_1" id="s2_1" placeholder="0.30" oninput="checkInput(this)">
+                    <input type="text" name="s2_2" id="s2_2" placeholder="0.21" oninput="checkInput(this)">
+                </div>
+                <div class="group-row">
+                    <input type="text" name="s2_3" id="s2_3" placeholder="0.12" oninput="checkInput(this)">
+                    <input type="text" name="s2_4" id="s2_4" placeholder="0.24" oninput="checkInput(this)">
+                    <input type="text" name="s2_5" id="s2_5" placeholder="0.32" oninput="checkInput(this)">
+                </div>
+            </div>
+
+            <button class="btn-submit" type="submit">▶ 开始健康状态检测</button>
         </form>
         {% if error_msg %}
-        <div class="error‑box">❌ {{error_msg}}</div>
+        <div class="error-box">❌ {{error_msg}}</div>
         {% endif %}
     </div>
 </div>
 
 <script>
-function fillRandomData(){
-    const ids = [
-        "s1_0","s1_1","s1_2","s1_3","s1_4","s1_5",
-        "s2_0","s2_1","s2_2","s2_3","s2_4","s2_5"
-    ]
+const ids = [
+    "s1_0","s1_1","s1_2","s1_3","s1_4","s1_5",
+    "s2_0","s2_1","s2_2","s2_3","s2_4","s2_5"
+];
+
+//随机填充，带按钮反馈
+document.getElementById("randBtn").addEventListener("click",function(){
     ids.forEach(id=>{
         const val = (Math.random()*0.4).toFixed(2);
         document.getElementById(id).value = val;
+        document.getElementById(id).classList.remove("invalid-input");
     })
+    const btn = this;
+    const oldText = btn.innerText;
+    btn.innerText = "✅已生成随机数据";
+    setTimeout(()=>{
+        btn.innerText = oldText;
+    },1200);
+})
+
+//清空全部输入框
+function clearAllData(){
+    ids.forEach(id=>{
+        const dom = document.getElementById(id);
+        dom.value = "";
+        dom.classList.remove("invalid-input");
+    })
+}
+
+//实时校验：只能0‑0.4浮点数
+function checkInput(dom){
+    const val = dom.value.trim();
+    if(val === ""){
+        dom.classList.remove("invalid-input");
+        return;
+    }
+    const num = parseFloat(val);
+    if(isNaN(num) || num <0 || num>0.4){
+        dom.classList.add("invalid-input");
+    }else{
+        dom.classList.remove("invalid-input");
+    }
 }
 </script>
 </body>
