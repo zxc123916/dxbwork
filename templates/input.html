@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF‑8">
     <meta name="viewport" content="width=device‑width, initial‑1.0">
-    <title>工业机器人健康状态监测系统</title>
+    <title>工业机器人 - 数据输入</title>
     <style>
         * {
             margin: 0;
@@ -106,29 +106,6 @@
             background: linear‑gradient(90deg, #19488c, #2262bc);
             box‑shadow: 0 6px 16px rgba(34, 98, 188, 0.35);
         }
-        .result‑wrap {
-            margin‑top: 30px;
-            border‑radius:12px;
-            padding:20px;
-            background‑color: #f1f5f9;
-        }
-        .result‑ok {
-            border‑left:6px solid #10b981;
-        }
-        .result‑warn {
-            border‑left:6px solid #ef4444;
-        }
-        .result‑title {
-            font‑size:18px;
-            font‑weight:bold;
-            color:#1e293b;
-            margin‑bottom:12px;
-        }
-        .result‑item {
-            font‑size:16px;
-            margin:8px 0;
-            color:#334155;
-        }
         .error‑box {
             margin‑top:16px;
             padding:14px 18px;
@@ -148,7 +125,6 @@
         <form method="post" action="/predict">
             <button class="btn‑random" type="button" onclick="fillRandomData()">🎲 一键快速随机生成12个数据</button>
 
-            <!-- 样本1 -->
             <div class="sample‑title‑box">
                 <span>样本1</span>
             </div>
@@ -161,7 +137,6 @@
                 <input type="text" name="s1_5" id="s1_5" placeholder="0.33">
             </div>
 
-            <!-- 样本2 -->
             <div class="sample‑title‑box">
                 <span>样本2</span>
             </div>
@@ -176,22 +151,6 @@
 
             <button class="btn‑submit" type="submit">▶ 开始健康状态检测</button>
         </form>
-
-        {% if result %}
-        <div class="result‑wrap {% if result.pred_label == 1 %}result‑warn{% else %}result‑ok{% endif %}">
-            <div class="result‑title">📋 模型推理结果</div>
-            <div class="result‑item">故障标签：<strong>{{result.pred_label}}</strong></div>
-            <div class="result‑item">故障概率：<strong>{{result.pred_prob}}</strong></div>
-            <div class="result‑item">
-                {% if result.pred_label ==1 %}
-                ⚠️ 检测结果：机器人存在故障风险
-                {% else %}
-                ✅ 检测结果：机器人运行状态健康
-                {% endif %}
-            </div>
-        </div>
-        {% endif %}
-
         {% if error_msg %}
         <div class="error‑box">❌ {{error_msg}}</div>
         {% endif %}
@@ -199,7 +158,6 @@
 </div>
 
 <script>
-//一键随机生成12个0~0.4之间的浮点数，保留2位小数
 function fillRandomData(){
     const ids = [
         "s1_0","s1_1","s1_2","s1_3","s1_4","s1_5",

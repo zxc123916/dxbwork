@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>检测结果 - 工业机器人健康状态监测</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", system-ui, sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1f3b64 0%, #365b94 50%, #4b78b8 100%);
+            padding: 48px 16px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .main-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+            padding: 42px;
+        }
+        h1 {
+            text-align: center;
+            color: #163b70;
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, #2b65b4, transparent);
+            margin-bottom: 28px;
+        }
+        .result-wrap {
+            margin-top: 20px;
+            border-radius:12px;
+            padding:24px;
+            background-color: #f1f5f9;
+        }
+        .result-ok {
+            border-left:6px solid #10b981;
+        }
+        .result-warn {
+            border-left:6px solid #ef4444;
+        }
+        .result-title {
+            font-size:20px;
+            font-weight:bold;
+            color:#1e293b;
+            margin-bottom:16px;
+        }
+        .result-item {
+            font-size:17px;
+            margin:12px 0;
+            color:#334155;
+        }
+        .btn-back {
+            width: 100%;
+            background: linear-gradient(90deg, #2058a8, #2b74d8);
+            color: #fff;
+            border: none;
+            padding:14px;
+            border-radius:12px;
+            font-size:17px;
+            font-weight:500;
+            cursor: pointer;
+            margin-top:30px;
+        }
+        .btn-back:hover {
+            background: linear-gradient(90deg, #19488c, #2262bc);
+            box-shadow: 0 6px 16px rgba(34, 98, 188, 0.35);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="main-card">
+        <h1>工业机器人健康状态监测系统</h1>
+        <div class="subtitle">模型健康检测结果</div>
+        <div class="divider"></div>
+
+        <div class="result-wrap {% if result.pred_label == 1 %}result-warn{% else %}result-ok{% endif %}">
+            <div class="result-title">📋 推理输出</div>
+            <div class="result-item">故障标签：<strong>{{result.pred_label}}</strong></div>
+            <div class="result-item">故障概率：<strong>{{result.pred_prob}}</strong></div>
+            <div class="result-item">
+                {% if result.pred_label ==1 %}
+                ⚠️ 检测结果：机器人存在故障风险
+                {% else %}
+                ✅ 检测结果：机器人运行状态健康
+                {% endif %}
+            </div>
+        </div>
+        <button class="btn-back" onclick="location.href='/input'">← 返回数据输入页面</button>
+    </div>
+</div>
+</body>
+</html>
