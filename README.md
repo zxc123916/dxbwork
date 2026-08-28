@@ -7,17 +7,32 @@
 
 ## 目录结构
 dxbwork
+├─data
+│   ├─dataset.xlsx               # 原始数据集
+│   ├─processed_data.csv         # 预处理完成数据集
+│   └─数据来源.txt
+├─db
+│   └─robot_fault.db             # sqlite数据库
+├─docs                           # 文档、图表输出
+├─fig                            # 绘图输出文件夹
+├─model
+│   ├─cnn_lstm_best.pt           # 训练保存最优模型权重
+│   └─scaler.pkl                 # 特征标准化器
 ├─src
-│ ├─api_server.py # FastAPI 后端服务主程序
-│ ├─train_cnn_lstm.py # CNN‑LSTM 模型训练脚本
-│ └─model_infer.py # 模型推理模块
+│   ├─api_server.py              # FastAPI后端服务主程序
+│   ├─train_cnn_lstm.py          # CNN‑LSTM模型训练脚本
+│   ├─data_preprocess.py         # 数据预处理脚本
+│   ├─data_eda.py                # 数据探索分析脚本
+│   └─model_infer.py             # 模型推理模块
 ├─templates
-│ ├─input.html # 数据输入网页
-│ └─result.html # 推理结果展示网页
-├─db # 数据库存放目录
-├─dataset.xlsx # 原始数据集（项目根目录）
-├─requirements.txt # 项目依赖包
-└─README.md # 项目说明文档
+│   ├─input.html                 # 数据输入网页
+│   └─result.html                # 推理结果展示网页
+├─方案设计.md
+├─选题说明.md
+├─学习笔记.md
+├─README.md
+└─requirements.txt
+
 
 ## 数据来源
 地址：https://archive.ics.uci.edu/dataset/963/ur3%2Bcobotops#1
