@@ -189,3 +189,15 @@ plt.show()
 print("\n说明：")
 print("0 → 正常，机器人无需维护")
 print("1 → 故障，机器人需要维护")
+
+import joblib
+joblib.dump(scaler, r"D:\githubdatadxb\dxbwork\model\scaler.pkl")
+
+
+# ========== 保存预处理后的表格数据（供课程设计使用） ==========
+import pandas as pd
+# X_all 是标准化之后完整二维特征数组；y_all原始标签
+df_processed = pd.DataFrame(X_all, columns=feature_cols)
+df_processed["grip_lost"] = y_all
+df_processed.to_csv(r"D:\githubdatadxb\dxbwork\data\processed_data.csv", index=False, encoding="utf‑8‑sig")
+print("✅ 已保存预处理数据集 data/processed_data.csv")
