@@ -7,31 +7,32 @@
 
 ## 目录结构
 dxbwork
-├─data
-│   ├─dataset.xlsx               # 原始数据集
-│   ├─processed_data.csv         # 预处理完成数据集
-│   └─数据来源.txt
-├─db
-│   └─robot_fault.db             # sqlite数据库
-├─docs                           # 文档、图表输出
-├─fig                            # 绘图输出文件夹
-├─model
-│   ├─cnn_lstm_best.pt           # 训练保存最优模型权重
-│   └─scaler.pkl                 # 特征标准化器
-├─src
-│   ├─api_server.py              # FastAPI后端服务主程序
-│   ├─train_cnn_lstm.py          # CNN‑LSTM模型训练脚本
-│   ├─data_preprocess.py         # 数据预处理脚本
-│   ├─data_eda.py                # 数据探索分析脚本
-│   └─model_infer.py             # 模型推理模块
-├─templates
-│   ├─input.html                 # 数据输入网页
-│   └─result.html                # 推理结果展示网页
-├─方案设计.md
-├─选题说明.md
-├─学习笔记.md
-├─README.md
-└─requirements.txt
+├── data                     # 数据集目录
+│   ├── dataset.xlsx         # 原始数据集
+│   ├── processed_data.csv   # 预处理完成数据集
+│   └── 数据来源.txt
+├── db                       # sqlite数据库存储检测历史记录
+│   └── robot_fault.db
+├── docs                     # 文档、实验图表
+├── fig                      # 绘图输出图片
+├── model                    # 训练产出模型文件
+│   ├── cnn_lstm_best.pt     # 训练保存权重
+│   └── scaler.pkl           # 标准化转换器
+├── prompt                   # 对话记录（课程设计附录素材）
+├── src                      # 后端Python源码
+│   ├── api_server.py        # FastAPI网页后端主程序
+│   ├── data_eda.py          # 数据探索分析
+│   ├── data_preprocess.py   # 数据预处理脚本
+│   ├── model_infer.py       # 模型推理封装
+│   └── train_cnn_lstm.py    # CNN‑LSTM模型训练脚本
+├── templates                # 前端网页模板
+│   ├── input.html           # 数据输入页面
+│   └── result.html          # 检测结果页面
+├── 方案设计.md
+├── 选题说明.md
+├── 学习笔记.md
+├── requirements.txt         # 项目依赖
+└── README.md                # 项目说明文档
 
 
 ## 数据来源
@@ -72,3 +73,12 @@ python src/train_cnn_lstm.py
 python src/api_server.py
 
 http://127.0.0.1:8000
+
+
+网页系统功能
+输入页面：两组传感器样本输入，每组 6 个 0‑0.4 浮点数；支持一键随机生成数据、清空全部输入；输入框实时校验数字与数值范围。
+结果页面：展示故障标签、故障概率、推理耗时、风险等级、维护建议。
+导出功能：保存本次检测结果，点击按钮下载 txt 格式实验报告，保存传感器原始数据、时间、推理指标。
+持久化存储：SQLite 数据库自动保存每一次检测历史记录。
+注意：修改数据表结构后，请删除db/robot_fault.db旧数据库文件，重启服务自动生成全新数据表。
+停止服务快捷键：Ctrl + C
